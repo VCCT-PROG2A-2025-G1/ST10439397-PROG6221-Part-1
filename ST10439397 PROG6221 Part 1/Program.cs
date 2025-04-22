@@ -1,4 +1,12 @@
-﻿using System;
+﻿// Jordan Small
+// ST10439397
+// GR01
+//
+//Reference:
+//OpenAI. (2023). ChatGPT (Mar 14 version) [Large language model]. https://chat.openai.com/
+//=========================================================================
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Media;
