@@ -1,24 +1,36 @@
-name: .NET Build
+name: .NET Core Desktop
 
 on:
   push:
-    branches: [main]
+    branches: [ "master" ]
   pull_request:
-    branches: [main]
+    branches: [ "master" ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+
+    runs-on: windows-latest
+
+    env:
+      Solution_Name: ST10439397 PROG6221 Part 1
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+    - name: Checkout
+      uses: actions/checkout@v4
       with:
-        dotnet-version: '8.0.x'
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+        fetch-depth: 0
+
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Setup MSBuild.exe
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Execute unit tests
+      run: dotnet test
