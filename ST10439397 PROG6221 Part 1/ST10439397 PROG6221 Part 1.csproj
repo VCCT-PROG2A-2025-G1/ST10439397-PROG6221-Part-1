@@ -48,7 +48,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserQuestions.cs" />
     <Compile Include="VoiceGreeting.cs" />
-    <Compile Include="Workflow\ci.yml.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
