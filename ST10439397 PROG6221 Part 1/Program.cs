@@ -9,6 +9,7 @@ namespace ST10439397_PROG6221_Part_1
 {
     internal class Program
     {
+        
         static void Main(string[] args)
         {
 
@@ -21,28 +22,28 @@ namespace ST10439397_PROG6221_Part_1
             try
             {
                 Console.Write("Please enter your name: ");
-                string Username = Console.ReadLine();
+                string username = Console.ReadLine();
 
                 // Validate the username input to ensure it contains only letters and is not empty.
-                while (string.IsNullOrWhiteSpace(Username) ||
-                       !System.Text.RegularExpressions.Regex.IsMatch(Username, @"^[a-zA-Z]+$"))
+                while (string.IsNullOrWhiteSpace(username) ||
+                       !System.Text.RegularExpressions.Regex.IsMatch(username, @"^[a-zA-Z]+$"))
                 {
                     Console.WriteLine("Invalid input. Name must contain only letters and not be empty.");
                     Console.Write("Please enter your name: ");
-                    Username = Console.ReadLine();
+                    username = Console.ReadLine();
                 }
 
-                Console.WriteLine($"Welcome, {Username}! Let's talk about cybersecurity.");
+                Console.WriteLine($"Welcome, " + username + " ! Let's talk about cybersecurity.");
                 Console.WriteLine("---------------------------------------------------------");
+
+                //Method of ways to reply to user inputs.
+                UserQuestions.Replies(username);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
                 return;
             }
-
-            //Method of ways to reply to user inputs.
-            UserQuestions.Replies();
         }
 //------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------
@@ -52,7 +53,9 @@ namespace ST10439397_PROG6221_Part_1
         {
             foreach (char c in text)
             {
+                //Prints each character.
                 Console.Write(c);
+                //Delays the text by 50 milliseconds.
                 System.Threading.Thread.Sleep(50);
             }
             Console.WriteLine();

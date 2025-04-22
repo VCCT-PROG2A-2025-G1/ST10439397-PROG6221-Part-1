@@ -8,12 +8,13 @@ namespace ST10439397_PROG6221_Part_1
 {
     internal class UserQuestions
     {
-        public static void Replies()
+     
+        public static void Replies(string username)
         {
             try
             {
                 Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine("Questions you may ask aligning with information that I contain: ");
+                Console.WriteLine("Thesee are the questions you may ask me " + username + ": ");
                 Console.WriteLine("How are you?");
                 Console.WriteLine("What is your purpose?");
                 Console.WriteLine("What can I ask you about?");
@@ -31,9 +32,9 @@ namespace ST10439397_PROG6221_Part_1
                     case "How are you?":
 
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine("Sorry I'm not programmed with emotions or opinions.");
+                        Console.WriteLine("Sorry I'm not programmed with emotions or opinions, but I am functionally properly, thank you.");
                         Console.WriteLine("---------------------------------------------------------");
-                        Replies();
+                        Replies(username);
                         break;
 
                     case "What is your purpose?":
@@ -41,12 +42,12 @@ namespace ST10439397_PROG6221_Part_1
                         Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.WriteLine("My purpose is to help you stay safe online by providing information and answering your questions about cybersecurity.");
                         Console.WriteLine("---------------------------------------------------------");
-                        Replies();
+                        Replies(username);
                         break;
 
                     case "What can I ask you about?":
 
-                        Info();
+                        Info(username);
                         break;
 
                     case "exit":
@@ -59,7 +60,7 @@ namespace ST10439397_PROG6221_Part_1
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("I didn’t quite understand that. Could you rephrase?");
                         Console.WriteLine("---------------------------------------------------------");
-                        Replies();
+                        Replies(username);
                         break;
                 }
 
@@ -73,7 +74,7 @@ namespace ST10439397_PROG6221_Part_1
 //------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------
 //Method that contains the information to keep  users safe on the internet.
-        public static void Info()
+        public static void Info(string username)
         {
 
             Console.ForegroundColor = ConsoleColor.Red;
@@ -91,7 +92,7 @@ namespace ST10439397_PROG6221_Part_1
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("Password safety is important. Use strong, unique passwords for each account and consider using a password manager.");
                     Console.WriteLine("---------------------------------------------------------");
-                    Replies();
+                    Replies(username);
                     break;
 
                 case "phishing":
@@ -99,7 +100,7 @@ namespace ST10439397_PROG6221_Part_1
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("Phishing is a method of obtaining personal information by impersonating a business or people of importance.");
                     Console.WriteLine("---------------------------------------------------------");
-                    Replies();
+                    Replies(username);
                     break;
 
                 case "safe browsing":
@@ -108,7 +109,7 @@ namespace ST10439397_PROG6221_Part_1
                     Console.WriteLine("Safe browsing involves being cautious about the websites you visit and the information you share online.\n" +
                         "Always check for HTTPS in the URL.");
                     Console.WriteLine("---------------------------------------------------------");
-                    Replies();
+                    Replies(username);
                     break;
 
                 default:
@@ -116,7 +117,7 @@ namespace ST10439397_PROG6221_Part_1
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("I’m not sure about that. Please ask me about password safety, phishing, or safe browsing.");
                     Console.WriteLine("---------------------------------------------------------");
-                    Info();
+                    Info(username);
                     break;
             }
         }
