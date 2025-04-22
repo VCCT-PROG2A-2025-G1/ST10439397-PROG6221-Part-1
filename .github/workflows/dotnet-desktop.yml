@@ -58,8 +58,8 @@ jobs:
     env:
       Solution_Name: ST10439397 PROG6221 Part 1
       Test_Project_Path: ST10439397 PROG6221 Part 1.Tests\ST10439397 PROG6221 Part 1.Tests.csproj             # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
-      Wap_Project_Directory: ST10439397 PROG6221 Part 1.Package    # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
-      Wap_Project_Path: C:\Users\jorda\OneDrive\Documents\Personal\Visual Studio\ST10439397 PROG6221 Part 1\ST10439397 PROG6221 Part 1.Package\ST10439397 PROG6221 Part 1.Package.wapproj             # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
+      Wap_Project_Directory: ""  # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
+      Wap_Project_Path: "" # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
 
     steps:
     - name: Checkout
