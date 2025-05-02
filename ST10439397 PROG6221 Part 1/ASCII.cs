@@ -11,7 +11,7 @@ namespace ST10439397_PROG6221_Part_1
         public static void AsciiArt()
         {
             //Ascii art for the program.
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.WriteLine(@"
        _______________________________________
       |                                       |
