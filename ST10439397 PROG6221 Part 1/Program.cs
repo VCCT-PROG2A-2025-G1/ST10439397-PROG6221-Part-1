@@ -1,6 +1,8 @@
 ﻿// Jordan Small
 // ST10439397
 // GR01
+// Youtube Video Link - 
+//
 //
 //Reference:
 //OpenAI. (2023). ChatGPT (Mar 14 version) [Large language model]. https://chat.openai.com/
@@ -17,16 +19,18 @@ namespace ST10439397_PROG6221_Part_1
 {
     internal class Program
     {
-        
-        static void Main(string[] args)
+        private static string[] messages;
+
+        public static void Main(string[] args)
         {
 
-            VoiceGreeting.Greeting();
-            ASCII.AsciiArt();
+            //VoiceGreeting.Greeting();
+            //ASCII.AsciiArt();
             Console.ForegroundColor = ConsoleColor.Blue;
+            //Only time a text delay will be implemented so that the user can get there questions answered immediately.
             TextDelay("“Hello! Welcome to the Cybersecurity Awareness Bot. I’m here to help you stay safe online.");
 
-            //Error handling to check if the user enters thier name correctly and not leave it blank or add anything that isn't apart of the alphabet.
+            //Error handling to check if the user enters their name correctly and not leave it blank or add anything that isn't apart of the alphabet.
             try
             {
                 Console.Write("Please enter your name: ");
@@ -45,11 +49,11 @@ namespace ST10439397_PROG6221_Part_1
                 Console.WriteLine("---------------------------------------------------------");
 
                 //Method of ways to reply to user inputs.
-                UserQuestions.Replies(username);
+                UserQuestions.Replies(username, messages);
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                Console.WriteLine($"An error occurred: Please follow the instructions provided below.");
                 return;
             }
         }

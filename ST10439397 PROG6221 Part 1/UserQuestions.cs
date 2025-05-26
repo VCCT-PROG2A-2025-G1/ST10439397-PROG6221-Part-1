@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.Remoting.Messaging;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,10 +33,10 @@ namespace ST10439397_PROG6221_Part_1
 
             //Arrays that hold questions and answers. 
             string[] Howareyou = new string[] { "how are you?", "how are you" };
-            string[] Howareyouanswers = new string[] { "Sorry I'm not programmed with or opinions, but I am functioning properly, thank you.", "gg", "seven eleven" };
+            string[] Howareyouanswers = new string[] { "Sorry I'm not programmed with or opinions, but I am functioning properly, thank you.", "All systems are go feeling secure and ready to assist!", "I'm doing great. Let's talk cybersecurity!" };
 
             string[] Whatisyourpupose = new string[] { "what is your purpose", "what is your purpose?", "purpose" };
-            string[] Whatisyourpuposeanswers = new string[] { "My purpose is to help you stay safe online by providing information and answering your questions about cybersecurity.", "dwa ", "dwae" };
+            string[] Whatisyourpuposeanswers = new string[] { "My purpose is to help you stay safe online by providing information and answering your questions about cybersecurity.", "My goal is to raise awareness about online threats and help you avoid them.", "I'm here to assist you in learning how to protect your digital life." };
 
             string[] WhatcanIaskyouabout = new string[] { "what can I ask you about?", "what can I ask you about", "what can i ask" };
 
@@ -57,21 +61,20 @@ namespace ST10439397_PROG6221_Part_1
                 int sentimentIndex = Array.IndexOf(Sentiment, detectedSentiment);
                 int keywordIndex = Array.IndexOf(keywords, detectedKeyword);
 
-                if (sentimentIndex >= 0 && keywordIndex >= 0 && keywordIndex < messages.Length)
+                if (sentimentIndex >= 0 && keywordIndex < message.Length)
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine(sentimentResponses[sentimentIndex]);
-                    Console.WriteLine($"It seems you're concerned about {detectedKeyword}. Here's some advice:");
+                    Console.WriteLine($"On the topic of {detectedKeyword}. Here's some advice:");
                     Console.WriteLine(message[keywordIndex]);
-                    Console.WriteLine(Line);
+                    Console.ResetColor();
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("Error: Sentiment or keyword index is out of bounds.");
+                    Console.ResetColor();
                 }
-
-                Replies(username, messages); // loop back
-                return;
             }
             else if (Howareyou.Any(q => question.Contains(q)))
             {
@@ -99,7 +102,6 @@ namespace ST10439397_PROG6221_Part_1
                 Console.WriteLine("I didn’t quite understand that. Could you rephrase?");
             }
 
-            Console.WriteLine(Line);
             Replies(username, messages);
         }
 
@@ -145,8 +147,30 @@ namespace ST10439397_PROG6221_Part_1
             Console.ForegroundColor = ConsoleColor.Blue;
             string input = Console.ReadLine().ToLower();
 
+            string detectedSentiment = Sentiment.FirstOrDefault(s => input.Contains(s));
+            string detectedKeyword = keywords.FirstOrDefault(k => input.Contains(k));
 
-            if (input.Contains("exit"))
+            if (detectedSentiment != null && detectedKeyword != null)
+            {
+                int sentimentIndex = Array.IndexOf(Sentiment, detectedSentiment);
+                int keywordIndex = Array.IndexOf(keywords, detectedKeyword);
+
+                if (sentimentIndex >= 0 && keywordIndex < message.Length)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine(sentimentResponses[sentimentIndex]);
+                    Console.WriteLine($"On the topic of {detectedKeyword}. Here's some advice:");
+                    Console.WriteLine(message[keywordIndex]);
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("Error: Sentiment or keyword index is out of bounds.");
+                    Console.ResetColor();
+                }
+            }
+            else if (input.Contains("exit"))
             {
                 Console.WriteLine("Goodbye!");
                 Environment.Exit(0);
@@ -187,7 +211,7 @@ namespace ST10439397_PROG6221_Part_1
             {
                 index = random.Next(messages.Length);
                 Console.WriteLine(messages[index]);
-                Replies(username, messages);
+                Info(username, messages);
             }
             else
             {
