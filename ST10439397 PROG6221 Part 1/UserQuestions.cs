@@ -111,9 +111,6 @@ namespace ST10439397_PROG6221_Part_1
         public static void Info(string username, string[] messages)
         {
 
-            //Randomiser for Dictionary answers selection.
-            Random random = new Random();
-
             var tips = new Dictionary<string, string[]>
             {
                 ["password safety"] = new[] { "Make your passwords at least 12 characters long, combining uppercase, lowercase, numbers, and special symbols.",
@@ -186,7 +183,7 @@ namespace ST10439397_PROG6221_Part_1
             {
                 if (input.Contains(key))
                 {
-                    ShowTip(username, tips[key], key, random);
+                    ShowTip(username, tips[key], key);
                     return;
                 }
             }
@@ -199,8 +196,11 @@ namespace ST10439397_PROG6221_Part_1
         //------------------------------------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------------------------------------
         //Method that contains the information to keep users safe on the internet.
-        public static void ShowTip(string username, string[] messages, string topic, Random random)
+        public static void ShowTip(string username, string[] messages, string topic)
         {
+            //Randomiser for Dictionary answers selection.
+            Random random = new Random();
+
             Console.ForegroundColor = ConsoleColor.Yellow;
             int index = random.Next(messages.Length);
             Console.WriteLine(messages[index]);
