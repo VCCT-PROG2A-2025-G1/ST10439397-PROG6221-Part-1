@@ -12,18 +12,7 @@ namespace ST10439397_PROG6221_Part_1
 {
     internal class UserQuestions
     {
-        static string[] keywords = new string[] { "password", "scam", "privacy" };
-        static string[] Sentiment = new string[] { "worried", "curious", "frustrated" };
-        static string[] sentimentResponses = {
-                "It's completely understandable to feel that way. Let me help you stay safe.",
-                "Curiosity is a great trait! Let's explore that topic.",
-                "Frustration is normal. Let's sort this out together."
-                };
-        static string[] message = {
-                    "Use a password manager to generate and store secure passwords.",
-                    "Scams often look official. Never click on suspicious links or attachments.",
-                    "Keep your software updated and avoid oversharing personal info online."
-                };
+
         static string Line = "---------------------------------------------------------";
 
         public static void Replies(string username, string[] messages)
@@ -39,6 +28,19 @@ namespace ST10439397_PROG6221_Part_1
             string[] Whatisyourpuposeanswers = new string[] { "My purpose is to help you stay safe online by providing information and answering your questions about cybersecurity.", "My goal is to raise awareness about online threats and help you avoid them.", "I'm here to assist you in learning how to protect your digital life." };
 
             string[] WhatcanIaskyouabout = new string[] { "what can I ask you about?", "what can I ask you about", "what can i ask" };
+
+            string[] keywords = new string[] { "password", "scam", "privacy" };
+            string[] Sentiment = new string[] { "worried", "curious", "frustrated" };
+            string[] sentimentResponses = {
+                "It's completely understandable to feel that way. Let me help you stay safe.",
+                "Curiosity is a great trait! Let's explore that topic.",
+                "Frustration is normal. Let's sort this out together."
+                };
+            string[] message = {
+                    "Use a password manager to generate and store secure passwords.",
+                    "Scams often look official. Never click on suspicious links or attachments.",
+                    "Keep your software updated and avoid oversharing personal info online."
+                };
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("These are the questions you may ask me " + username + ": ");
@@ -80,11 +82,13 @@ namespace ST10439397_PROG6221_Part_1
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine(Howareyouanswers[random.Next(Howareyouanswers.Length)]);
+                Console.ResetColor();
             }
             else if (Whatisyourpupose.Any(q => question.Contains(q)))
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine(Whatisyourpuposeanswers[random.Next(Whatisyourpuposeanswers.Length)]);
+                Console.ResetColor();
             }
             else if (WhatcanIaskyouabout.Any(q => question.Contains(q)))
             {
@@ -95,11 +99,13 @@ namespace ST10439397_PROG6221_Part_1
             {
                 Console.WriteLine("Goodbye!");
                 Environment.Exit(0);
+                Console.ResetColor();
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("I didn’t quite understand that. Could you rephrase?");
+                Console.ResetColor();
             }
 
             Replies(username, messages);
@@ -110,6 +116,9 @@ namespace ST10439397_PROG6221_Part_1
         //Method that contains the information to keep users safe on the internet.
         public static void Info(string username, string[] messages)
         {
+
+            //Randomiser for Dictionary answers selection.
+            Random random = new Random();
 
             var tips = new Dictionary<string, string[]>
             {
@@ -143,34 +152,13 @@ namespace ST10439397_PROG6221_Part_1
 
             Console.ForegroundColor = ConsoleColor.Blue;
             string input = Console.ReadLine().ToLower();
+            Console.ResetColor();
 
-            string detectedSentiment = Sentiment.FirstOrDefault(s => input.Contains(s));
-            string detectedKeyword = keywords.FirstOrDefault(k => input.Contains(k));
-
-            if (detectedSentiment != null && detectedKeyword != null)
-            {
-                int sentimentIndex = Array.IndexOf(Sentiment, detectedSentiment);
-                int keywordIndex = Array.IndexOf(keywords, detectedKeyword);
-
-                if (sentimentIndex >= 0 && keywordIndex < message.Length)
-                {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine(sentimentResponses[sentimentIndex]);
-                    Console.WriteLine($"On the topic of {detectedKeyword}. Here's some advice:");
-                    Console.WriteLine(message[keywordIndex]);
-                    Console.ResetColor();
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine("Error: Sentiment or keyword index is out of bounds.");
-                    Console.ResetColor();
-                }
-            }
-            else if (input.Contains("exit"))
+            if (input.Contains("exit"))
             {
                 Console.WriteLine("Goodbye!");
                 Environment.Exit(0);
+                Console.ResetColor();
             }
             else if (input.Contains("back"))
             {
@@ -206,12 +194,14 @@ namespace ST10439397_PROG6221_Part_1
             Console.WriteLine(messages[index]);
             Console.WriteLine("Would you like another tip?");
             string question = Console.ReadLine().ToLower();
+            Console.ResetColor();
 
             if (question == "yes")
             {
                 index = random.Next(messages.Length);
                 Console.WriteLine(messages[index]);
                 Info(username, messages);
+                Console.ResetColor();
             }
             else
             {
