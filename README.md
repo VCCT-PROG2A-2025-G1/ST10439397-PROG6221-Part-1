@@ -32,7 +32,7 @@ safe browsing
 Detects basic sentiment from user input.
 Responds with appropriate reactions based on the detected emotion.
 
-### Cur
+### Curiosity Detection
 Recognizes when a user is curious.
 Asks if the user would like a related tip
 Delivers a random tip from its knowledge base if accepted
