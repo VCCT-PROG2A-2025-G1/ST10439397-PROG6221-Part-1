@@ -22,20 +22,21 @@ namespace ST10439397_PROG6221_Part_1
 
             //Arrays that hold questions and answers. 
             string[] Howareyou = new string[] { "how are you?", "how are you" };
-            string[] Howareyouanswers = new string[] { "Sorry I'm not programmed with or opinions, but I am functioning properly, thank you.", "All systems are go feeling secure and ready to assist!", "I'm doing great. Let's talk cybersecurity!" };
+            string[] Howareyouanswers = new string[] { "Sorry I'm not programmed with or opinions, but I am functioning properly, thank you.", "All systems are go, feeling secure and ready to assist!", "I'm doing great. Let's talk cybersecurity!" };
 
             string[] Whatisyourpupose = new string[] { "what is your purpose", "what is your purpose?", "purpose" };
-            string[] Whatisyourpuposeanswers = new string[] { "My purpose is to help you stay safe online by providing information and answering your questions about cybersecurity.", "My goal is to raise awareness about online threats and help you avoid them.", "I'm here to assist you in learning how to protect your digital life." };
+            string[] Whatisyourpuposeanswers = new string[] { $"My purpose is to help you stay safe online {username}, by providing information and answering your questions about cybersecurity.", $"My goal is to raise awareness about online threats and help you avoid them {username}.", $"I'm here to assist you {username} in learning how to protect your digital life." };
 
             string[] WhatcanIaskyouabout = new string[] { "what can I ask you about?", "what can I ask you about", "what can i ask" };
 
             string[] keywords = new string[] { "password", "scam", "privacy" };
             string[] Sentiment = new string[] { "worried", "curious", "frustrated" };
             string[] sentimentResponses = {
-                "It's completely understandable to feel that way. Let me help you stay safe.",
-                "Curiosity is a great trait! Let's explore that topic.",
-                "Frustration is normal. Let's sort this out together."
+                $"It's completely understandable {username} to feel that way. Let me help you stay safe.",
+                $"Curiosity is a great {username}! Let's explore that topic.",
+                $"Frustration is normal. Let's sort this out together {username}."
                 };
+
             string[] message = {
                     "Use a password manager to generate and store secure passwords.",
                     "Scams often look official. Never click on suspicious links or attachments.",
@@ -69,12 +70,14 @@ namespace ST10439397_PROG6221_Part_1
                     Console.WriteLine(sentimentResponses[sentimentIndex]);
                     Console.WriteLine($"On the topic of {detectedKeyword}. Here's some advice:");
                     Console.WriteLine(message[keywordIndex]);
+                    Console.WriteLine(Line);
                     Console.ResetColor();
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("Error: Sentiment or keyword index is out of bounds.");
+                    Console.WriteLine(Line);
                     Console.ResetColor();
                 }
             }
@@ -82,12 +85,14 @@ namespace ST10439397_PROG6221_Part_1
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine(Howareyouanswers[random.Next(Howareyouanswers.Length)]);
+                Console.WriteLine(Line);
                 Console.ResetColor();
             }
             else if (Whatisyourpupose.Any(q => question.Contains(q)))
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine(Whatisyourpuposeanswers[random.Next(Whatisyourpuposeanswers.Length)]);
+                Console.WriteLine(Line);
                 Console.ResetColor();
             }
             else if (WhatcanIaskyouabout.Any(q => question.Contains(q)))
@@ -97,6 +102,7 @@ namespace ST10439397_PROG6221_Part_1
             }
             else if (question.Contains("exit"))
             {
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Goodbye!");
                 Environment.Exit(0);
                 Console.ResetColor();
@@ -105,6 +111,7 @@ namespace ST10439397_PROG6221_Part_1
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("I didn’t quite understand that. Could you rephrase?");
+                Console.WriteLine(Line);
                 Console.ResetColor();
             }
 
@@ -154,14 +161,17 @@ namespace ST10439397_PROG6221_Part_1
             string input = Console.ReadLine().ToLower();
             Console.ResetColor();
 
+            //back and exit
             if (input.Contains("exit"))
             {
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Goodbye!");
                 Environment.Exit(0);
                 Console.ResetColor();
             }
             else if (input.Contains("back"))
             {
+                Console.WriteLine(Line);
                 Replies(username, messages);
                 return;
             }
@@ -178,13 +188,15 @@ namespace ST10439397_PROG6221_Part_1
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("I’m not sure about that. Please ask me about internet safety topics.");
+            Console.WriteLine(Line);
+            Console.ResetColor();
             Info(username, messages);
         }
 
         //------------------------------------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------------------------------------
         //Method that contains the information to keep users safe on the internet.
-        public static void ShowTip(string username, string[] messages, string topic)
+        public static void ShowTip(string username, string[] messages, string key)
         {
             //Randomiser for Dictionary answers selection.
             Random random = new Random();
@@ -193,18 +205,23 @@ namespace ST10439397_PROG6221_Part_1
             int index = random.Next(messages.Length);
             Console.WriteLine(messages[index]);
             Console.WriteLine("Would you like another tip?");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Blue;
             string question = Console.ReadLine().ToLower();
             Console.ResetColor();
 
             if (question == "yes")
             {
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 index = random.Next(messages.Length);
                 Console.WriteLine(messages[index]);
-                Info(username, messages);
+                Console.WriteLine(Line);
                 Console.ResetColor();
+                Info(username, messages);
             }
             else
             {
+                Console.WriteLine(Line);
                 Info(username, messages);
             }
         }

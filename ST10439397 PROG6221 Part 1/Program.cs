@@ -1,7 +1,9 @@
 ﻿// Jordan Small
 // ST10439397
 // GR01
-// Youtube Video Link - 
+// Part 1 YT LINK:
+// https://youtu.be/njBOQSc4Ucg
+// Part 2 YT LINK:
 //
 //
 //Reference:
@@ -24,8 +26,8 @@ namespace ST10439397_PROG6221_Part_1
         public static void Main(string[] args)
         {
 
-            //VoiceGreeting.Greeting();
-            //ASCII.AsciiArt();
+            VoiceGreeting.Greeting();
+            ASCII.AsciiArt();
             Console.ForegroundColor = ConsoleColor.Blue;
             //Only time a text delay will be implemented so that the user can get there questions answered immediately.
             TextDelay("“Hello! Welcome to the Cybersecurity Awareness Bot. I’m here to help you stay safe online.");
