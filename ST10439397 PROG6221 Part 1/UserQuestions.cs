@@ -14,7 +14,16 @@ namespace ST10439397_PROG6221_Part_1
     {
         static string[] keywords = new string[] { "password", "scam", "privacy" };
         static string[] Sentiment = new string[] { "worried", "curious", "frustrated" };
-        static string[] sen = new string[] { "It's completely understandable to feel that way. Scammers can be very convincing. Let me share some tips to help you stay safe.", "Curiosity is a great trait! How can I assist you today?", "Frustration is understandable. Let me help you with that." };
+        static string[] sentimentResponses = {
+                "It's completely understandable to feel that way. Let me help you stay safe.",
+                "Curiosity is a great trait! Let's explore that topic.",
+                "Frustration is normal. Let's sort this out together."
+                };
+        static string[] message = {
+                    "Use a password manager to generate and store secure passwords.",
+                    "Scams often look official. Never click on suspicious links or attachments.",
+                    "Keep your software updated and avoid oversharing personal info online."
+                }; 
         static string Line = "---------------------------------------------------------";
 
         public static void Replies(string username, string[] messages)
@@ -42,89 +51,60 @@ namespace ST10439397_PROG6221_Part_1
 
             Console.ForegroundColor = ConsoleColor.Blue;
             string question = Console.ReadLine().ToLower();
+            Console.ResetColor();
 
-            //Loop that checks if any emotional response was typed
-            for (int i = 0; i < Sentiment.Length; i++)
+            string detectedSentiment = Sentiment.FirstOrDefault(s => question.Contains(s));
+            string detectedKeyword = keywords.FirstOrDefault(k => question.Contains(k));
+
+            if (detectedSentiment != null && detectedKeyword != null)
             {
-                //Then checks which one it matches in the array
-                if (question.Contains(Sentiment[i]))
+                int sentimentIndex = Array.IndexOf(Sentiment, detectedSentiment);
+                int keywordIndex = Array.IndexOf(keywords, detectedKeyword);
+
+                if (sentimentIndex >= 0 && keywordIndex >= 0 && keywordIndex < messages.Length)
                 {
-                    //Then it does another loop to check if it matches cybertech keywords in the array
-                    for (int j = 0; j < keywords.Length; j++)
-                    {
-                        if (question.Contains(keywords[j]))
-                        {
-                            Console.ForegroundColor = ConsoleColor.Yellow;
-                            Console.WriteLine(sen[i]);
-                            Console.WriteLine($"It seems you're concerned about {keywords[j]}. Here's some advice.");
-
-                            if(keywords[j] == "password")
-                            {
-                                Console.ForegroundColor = ConsoleColor.Yellow;
-                                Console.WriteLine(messages[0]);
-                            }
-                            else if (keywords[j] == "scam")
-                            {
-                                Console.ForegroundColor = ConsoleColor.Yellow;
-                                int index = random.Next(messages.Length);
-                                Console.WriteLine(messages[1]);
-                            }
-                            else if (keywords[j] == "privacy")
-                            {
-                                Console.ForegroundColor = ConsoleColor.Yellow;
-                                int index = random.Next(messages.Length);
-                                Console.WriteLine(messages[index]);
-                            }
-
-
-                            Console.WriteLine(Line);
-                            Replies(username, messages);
-                            return;
-                        }
-                    }
-
-                    // Sentiment matched, but no specific keyword
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine(sen[i]);
+                    Console.WriteLine(sentimentResponses[sentimentIndex]);
+                    Console.WriteLine($"It seems you're concerned about {detectedKeyword}. Here's some advice:");
+                    Console.WriteLine(message[keywordIndex]);
                     Console.WriteLine(Line);
-                    Replies(username, messages);
-                    return;
                 }
-            }
-            //The above is like this for in the case of the user using different keywords with each other.
+                else
+                {
+                    Console.WriteLine("Error: Sentiment or keyword index is out of bounds.");
+                }
 
-            if (Howareyou.Any(question.Contains))
+                Replies(username, messages); // loop back
+                return;
+            }
+            else if (Howareyou.Any(q => question.Contains(q)))
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                int index = random.Next(Howareyouanswers.Length);
-                Console.WriteLine(Howareyouanswers[index]);
-                Console.WriteLine(Line);
-                Replies(username, messages);
+                Console.WriteLine(Howareyouanswers[random.Next(Howareyouanswers.Length)]);
             }
             else if (Whatisyourpupose.Any(q => question.Contains(q)))
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                int index1 = random.Next(Whatisyourpuposeanswers.Length);
-                Console.WriteLine(Whatisyourpuposeanswers[index1]);
-                Console.WriteLine(Line);
-                Replies(username, messages);
+                Console.WriteLine(Whatisyourpuposeanswers[random.Next(Whatisyourpuposeanswers.Length)]);
             }
             else if (WhatcanIaskyouabout.Any(q => question.Contains(q)))
             {
                 Info(username, messages);
+                return;
             }
             else if (question.Contains("exit"))
             {
-                Console.WriteLine("Goodbye");
+                Console.WriteLine("Goodbye!");
                 Environment.Exit(0);
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("I didn’t quite understand that. Could you rephrase?");
-                Console.WriteLine(Line);
-                Replies(username, messages);
             }
+
+            Console.WriteLine(Line);
+            Replies(username, messages);
         }
 
         //------------------------------------------------------------------------------------------------------------------
