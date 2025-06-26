@@ -31,7 +31,7 @@ namespace ST10439397_PROG6221_Part_1
             ASCII.AsciiArt();
             Console.ForegroundColor = ConsoleColor.Blue;
             //Only time a text delay will be implemented so that the user can get there questions answered immediately.
-            TextDelay("“Hello! Welcome to the Cybersecurity Awareness Bot. I’m here to help you stay safe online.");
+            TextDelay("Hello! Welcome to the Cybersecurity Awareness Bot. I’m here to help you stay safe online.");
 
             //Error handling to check if the user enters their name correctly and not leave it blank or add anything that isn't apart of the alphabet.
             try

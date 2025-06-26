@@ -18,31 +18,23 @@ using static Chatbot_Shared.Class1;
 
 namespace CyberChatbotGUI
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private string UserName = "User";
         public MainWindow()
         {
             InitializeComponent();
-            //string input = Interaction.InputBox("Please enter your name:", "Welcome", "User");
-            //if (!string.IsNullOrWhiteSpace(input))
-            //{
-            //    UserName = input.Trim();
-            //}
             AddChatMessage("Bot: " + GetHelpMessage());
         }
 
-        //--------------------------------------------------------------------------------
-        // Handles the Enter key press in the UserInputBox to send the message
+//--------------------------------------------------------------------------------
+// Handles the Enter key press in the UserInputBox to send the message
         private void SendButton_Click(object sender, RoutedEventArgs e)
         {
             string input = UserInputBox.Text.ToLower();
             if (string.IsNullOrWhiteSpace(input)) return;
 
-            AddChatMessage($"{UserState.Name}: " + input);
+            AddChatMessage("You: " + input);
 
             string response = Processes.Process(input);
             AddChatMessage("Bot: " + response);
@@ -51,7 +43,21 @@ namespace CyberChatbotGUI
         }
 
 //--------------------------------------------------------------------------------
-// 
+// Method to handle the Enter key press in the UserInputBox
+        private string GetHelpMessage()
+        {
+            return "Hello! Welcome to the Cybersecurity Awareness Bot. I’m here to help you stay safe online.\n" +
+                   "• Add a task: 'add task' or 'remind me'\n" +
+                   "• Take a cybersecurity quiz: 'start quiz'\n" +
+                   "• View your tasks: 'show tasks'\n" +
+                   "• Mark/delete a task in the task window\n" +
+                   "• View activity log: 'show activity log', 'log'\n" +
+                   "• Ask questions about cybersecurity topics\n" +
+                   "• Exit: type 'exit'\n";
+        }
+
+//--------------------------------------------------------------------------------
+// Method to handle the Enter key press in the UserInputBox
         private void AddChatMessage(string message)
         {
             ChatPanel.Children.Add(new TextBlock
@@ -61,18 +67,6 @@ namespace CyberChatbotGUI
                 TextWrapping = TextWrapping.Wrap,
                 Margin = new Thickness(0, 5, 0, 0)
             });
-        }
-
-    private string GetHelpMessage()
-        {
-            return "👋 Welcome! Here’s what I can help you with:\n" +
-                   "• Add a task: 'add task' or 'remind me'\n" +
-                   "• Take a cybersecurity quiz: 'start quiz'\n" +
-                   "• View your tasks: 'show tasks'\n" +
-                   "• Mark/delete a task in the task window\n" +
-                   "• View activity log: 'show activity log'\n" +
-                   "• Ask questions about cybersecurity topics\n" +
-                   "• Exit: type 'exit'\n";
         }
     }
 }
