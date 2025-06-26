@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
 
 namespace CyberChatbotGUI.Logic
 {
-    internal class NLPProcessor
+    internal class Processes
     {
-
+//--------------------------------------------------------------------------------
+// Main processing method for user input
         public static string Process(string input)
         {
             if (input.Contains("quiz"))
@@ -17,38 +19,26 @@ namespace CyberChatbotGUI.Logic
                 quiz.ShowDialog();
                 return "Quiz finished.";
             }
-            if (input.Contains("add task") || input.Contains("remind me"))
+            if (input.Contains("add task") || input.Contains("remind me") || input.Contains("show tasks"))
             {
                 TaskWindow taskWindow = new TaskWindow();
                 taskWindow.ShowDialog();
+                return "Task management window closed.";
             }
-            if (input.Contains("show activity log") || input.Contains("what have you done"))
+            if (input.Contains("show activity log") || input.Contains("what have you done") || input.Contains(" show logs") || input.Contains("logs"))
             {
                 return string.Join("\n", ActivityLogger.GetLog());
+            }
+            if (input.Contains("exit"))
+            {
+                Environment.Exit(0);
             }
             return UserQuestions.GetResponse(input, "User");
         }
     }
 
-    public static class TaskManager
-    {
-        public static List<TaskItem> Tasks = new List<TaskItem>();
-
-        public static string AddTaskFromInput(string input)
-        {
-            string title = input; // basic placeholder logic
-            Tasks.Add(new TaskItem { Title = title, Description = "Cybersecurity Task", ReminderDate = DateTime.Now.AddDays(3) });
-            ActivityLogger.Add($"Task added: '{title}' with reminder in 3 days.");
-            return $"Task added: '{title}'. Reminder set for 3 days from now.";
-        }
-
-        public static string ViewTasks()
-        {
-            if (Tasks.Count == 0) return "No tasks available.";
-            return string.Join("\n", Tasks.Select(t => $"{t.Title} - {(t.ReminderDate.HasValue ? $"Reminder: {t.ReminderDate}" : "No reminder")}"));
-        }
-    }
-
+//--------------------------------------------------------------------------------
+//Getters and Setters for TaskItems
     public class TaskItem
     {
         public string Title { get; set; }
@@ -57,25 +47,42 @@ namespace CyberChatbotGUI.Logic
         public bool Completed { get; set; }
     }
 
+//--------------------------------------------------------------------------------
+//Quiz Management Method
     public static class QuizManager
     {
         public static List<Question> Questions = new List<Question>
         {
             new Question("What should you do if you get a phishing email?", new[] {"Reply", "Report it", "Click the link", "Ignore it"}, 1, "Reporting phishing helps stop scams."),
             new Question("True or False: You should reuse passwords.", new[] {"True", "False"}, 1, "Use unique passwords for each account."),
-            // Add 8 more...
+            new Question("What is two-factor authentication?", new[] {"A second password", "A security feature", "A type of encryption", "A phishing technique"}, 1, "Two-factor authentication adds an extra layer of security."),
+            new Question("What is the purpose of a firewall?", new[] {"To block malware", "To speed up internet", "To filter spam", "To encrypt data"}, 0, "A firewall helps protect your network from unauthorized access."),
+            new Question("What is social engineering?", new[] {"A type of malware", "Manipulating people", "A network protocol", "A programming language"}, 1, "Social engineering involves tricking people into giving up sensitive information."),
+            new Question("What is a strong password?", new[] {"123456", "password", "A mix of letters, numbers, and symbols", "Your name"}, 2, "A strong password is complex and hard to guess."),
+            new Question("True or False: .", new[] {"True", "False"}, 1, "."),
+            new Question("True or False: You should reuse passwords.", new[] {"True", "False"}, 1, "Use unique passwords for each account."),
+            new Question("True or False: You should reuse passwords.", new[] {"True", "False"}, 1, "Use unique passwords for each account."),
+            new Question("True or False: You should reuse passwords.", new[] {"True", "False"}, 1, "Use unique passwords for each account."),
         };
 
         public static void StartQuiz()
         {
             int score = 0;
+
+            //Loop through each question.
             for (int i = 0; i < Questions.Count; i++)
             {
                 var q = Questions[i];
+                
                 Console.WriteLine($"{i + 1}. {q.Text}");
+
+                //Loop through each option for the question that allows for answer selection.
                 for (int j = 0; j < q.Options.Length; j++)
+                
                     Console.WriteLine($"{(char)(65 + j)}) {q.Options[j]}");
+                
                 string answer = Console.ReadLine()?.ToUpper();
+                
                 if ((answer?[0] - 'A') == q.CorrectIndex)
                 {
                     Console.WriteLine("Correct! " + q.Explanation);
@@ -86,10 +93,15 @@ namespace CyberChatbotGUI.Logic
                     Console.WriteLine("Incorrect. " + q.Explanation);
                 }
             }
+
+            //Output final score and log the activity.
+            Console.WriteLine($"Quiz completed. Score: {score}/{Questions.Count}");
             ActivityLogger.Add($"Quiz completed. Score: {score}/{Questions.Count}");
         }
     }
 
+//--------------------------------------------------------------------------------
+//Question Class for Quiz
     public class Question
     {
         public string Text { get; set; }
@@ -106,6 +118,8 @@ namespace CyberChatbotGUI.Logic
         }
     }
 
+//--------------------------------------------------------------------------------
+//Activity Recorder Method
     public static class ActivityLogger
     {
         private static readonly Queue<string> log = new Queue<string>();
@@ -122,6 +136,8 @@ namespace CyberChatbotGUI.Logic
         }
     }
 
+//--------------------------------------------------------------------------------
+//Part 2 integration to the WPF
     public static class UserQuestions
     {
         public static string GetResponse(string input, string userName)
@@ -156,3 +172,4 @@ namespace CyberChatbotGUI.Logic
         }
     }
 }
+//=====================================0000000000END OF FILE========================================

@@ -16,11 +16,9 @@ using CyberChatbotGUI.Logic;
 
 namespace CyberChatbotGUI
 {
-    /// <summary>
-    /// Interaction logic for QuizWindow.xaml
-    /// </summary>
     public partial class QuizWindow : Window
     {
+        // Setting the current index and score for the quiz
         private int currentIndex = 0;
         private int score = 0;
 
@@ -30,6 +28,8 @@ namespace CyberChatbotGUI
             LoadQuestion();
         }
 
+//--------------------------------------------------------------------------------
+// 
         private void LoadQuestion()
         {
             var q = QuizManager.Questions[currentIndex];
@@ -38,7 +38,8 @@ namespace CyberChatbotGUI
             foreach (var opt in q.Options)
                 OptionList.Items.Add(opt);
         }
-
+//--------------------------------------------------------------------------------
+// 
         private void Submit_Click(object sender, RoutedEventArgs e)
         {
             if (OptionList.SelectedIndex == -1) return;
@@ -63,8 +64,14 @@ namespace CyberChatbotGUI
             {
                 FeedbackText.Text = $"Quiz complete. Score: {score}/{QuizManager.Questions.Count}";
                 ActivityLogger.Add($"Quiz completed. Score: {score}/{QuizManager.Questions.Count}");
-                this.Close();
             }
+        }
+//--------------------------------------------------------------------------------
+// 
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close(); // Closes TaskWindow and shows MainWindow again
         }
     }
 }
+//=====================================0000000000END OF FILE========================================

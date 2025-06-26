@@ -16,44 +16,112 @@ using CyberChatbotGUI.Logic;
 
 namespace CyberChatbotGUI
 {
-        public partial class TaskWindow : Window
+    public partial class TaskWindow : Window
+    {
+        public TaskWindow()
         {
-            
+            InitializeComponent();
+            RefreshTaskList();
+        }
 
-            public TaskWindow()
+//--------------------------------------------------------------------------------
+//How the Task Manager system captures tasks and reminders
+        public static class TaskManager
+        {
+            public static List<TaskItem> Tasks = new List<TaskItem>();
+        }
+
+//--------------------------------------------------------------------------------
+//How the Task Manager system captures tasks and reminders
+        private void AddTask_Click(object sender, RoutedEventArgs e)
+        {
+            string title = TaskTitleBox.Text;
+            string description = TaskDescriptionBox.Text;
+            DateTime? selectedDate = ReminderDatePicker.SelectedDate;
+
+            if (!string.IsNullOrWhiteSpace(title))
             {
-                InitializeComponent(); // Ensure this is called within the constructor of the correct class
+                DateTime? reminder = null;
+                string reminderMsg = "";
+
+                // If a reminder date is selected, set the reminder and calculate days difference
+                if (selectedDate.HasValue)
+                {
+                    reminder = selectedDate.Value;
+                    int daysDiff = (reminder.Value - DateTime.Now.Date).Days;
+                    reminderMsg = $" (Reminder set for {daysDiff} day(s) from now)";
+                }
+
+                // Adds the task to the TaskManager and logs the action
+                TaskManager.Tasks.Add(new TaskItem
+                {
+                    Title = title,
+                    Description = description,
+                    ReminderDate = reminder,
+                    Completed = false
+                });
+
+                ActivityLogger.Add($"Task added: '{title}'{reminderMsg}");
                 RefreshTaskList();
-            }
 
-            private void AddTask_Click(object sender, RoutedEventArgs e)
-            {
-                string title = TaskTitleBox.Text; // Accessing TextBox.Text property
-                string description = TaskDescriptionBox.Text; // Accessing TextBox.Text property
-                if (!string.IsNullOrWhiteSpace(title))
-                {
-                    TaskManager.Tasks.Add(new TaskItem
-                    {
-                        Title = title,
-                        Description = description,
-                        ReminderDate = DateTime.Now.AddDays(3),
-                        Completed = false
-                    });
-                    ActivityLogger.Add($"Task added: '{title}'");
-                    RefreshTaskList();
-                    TaskTitleBox.Clear(); // Clear method for TextBox
-                    TaskDescriptionBox.Clear(); // Clear method for TextBox
-                }
-            }
-
-            private void RefreshTaskList()
-            {
-                TaskList.Items.Clear(); // Clear method for ListBox
-                foreach (var task in TaskManager.Tasks)
-                {
-                    string display = task.Title + (task.ReminderDate.HasValue ? $" (Reminder: {task.ReminderDate.Value:d})" : "");
-                    TaskList.Items.Add(display); // Add method for ListBox
-                }
+                //Resets the input fields after adding a task
+                TaskTitleBox.Clear();
+                TaskDescriptionBox.Clear();
+                ReminderDatePicker.SelectedDate = null;
             }
         }
+
+//--------------------------------------------------------------------------------
+// Refreshes the TaskList with current tasks and their statuses
+        private void RefreshTaskList()
+        {
+            TaskList.Items.Clear();
+            foreach (var task in TaskManager.Tasks)
+            {
+                string status = task.Completed ? "(Completed)" : "(Pending)";
+                string display = $"{task.Title} {status}" + (task.ReminderDate.HasValue ? $" - Reminder: {task.ReminderDate.Value:d}" : "");
+                TaskList.Items.Add(display);
+            }
+        }
+
+//--------------------------------------------------------------------------------
+// Toggles the completion status of the selected task and logs the action
+        private void ToggleComplete_Click(object sender, RoutedEventArgs e)
+        {
+            int index = TaskList.SelectedIndex;
+
+            // Check if the selected index is valid
+            if (index >= 0 && index < TaskManager.Tasks.Count)
+            {
+                var task = TaskManager.Tasks[index];
+                task.Completed = !task.Completed;
+                // Log the action based on the task's new status
+                string action = task.Completed ? "marked completed" : "marked as pending";
+                ActivityLogger.Add($"Task {action}: '{task.Title}'");
+                RefreshTaskList();
+            }
+        }
+//--------------------------------------------------------------------------------
+// Deletes the task to the TaskList while also logging the action
+        private void DeleteTask_Click(object sender, RoutedEventArgs e)
+        {
+            int index = TaskList.SelectedIndex;
+
+            // Check if the selected index is valid
+            if (index >= 0 && index < TaskManager.Tasks.Count)
+            {
+                ActivityLogger.Add($"Task deleted: '{TaskManager.Tasks[index].Title}'");
+                TaskManager.Tasks.RemoveAt(index);
+                RefreshTaskList();
+            }
+        }
+
+//--------------------------------------------------------------------------------
+// Takes the user back to the MainWindow
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+    }
 }
+//=====================================0000000000END OF FILE========================================
