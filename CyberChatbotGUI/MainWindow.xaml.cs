@@ -1,4 +1,19 @@
-﻿using CyberChatbotGUI.Logic;
+﻿// Jordan Small
+// ST10439397
+// GR01
+// Part 1 YT LINK:
+// https://youtu.be/njBOQSc4Ucg
+// Part 2 YT LINK:
+// https://youtu.be/-o7vdro2X04
+// Part 3 YT LINK:
+// https://youtu.be/mFiTAg_tfUc
+//
+//
+//Reference:
+//OpenAI. (2023). ChatGPT (June 27 version) [Large language model]. https://chat.openai.com/
+//=========================================================================
+
+using CyberChatbotGUI.Logic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
