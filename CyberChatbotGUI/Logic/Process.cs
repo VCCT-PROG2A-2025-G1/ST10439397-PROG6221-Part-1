@@ -110,40 +110,6 @@ namespace CyberChatbotGUI.Logic
             new Question("What is a strong password?", new[] {"123456", "password", "A mix of letters, numbers, and symbols", "Your name"}, 2, "A strong password is complex and hard to guess.")
             
         };
-
-        public static void StartQuiz()
-        {
-            int score = 0;
-
-            //Loop through each question.
-            for (int i = 0; i < Questions.Count; i++)
-            {
-                var q = Questions[i];
-                
-                Console.WriteLine($"{i + 1}. {q.Text}");
-
-                //Loop through each option for the question that allows for answer selection.
-                for (int j = 0; j < q.Options.Length; j++)
-                
-                    Console.WriteLine($"{(char)(65 + j)}) {q.Options[j]}");
-                
-                string answer = Console.ReadLine()?.ToUpper();
-                
-                if ((answer?[0] - 'A') == q.CorrectIndex)
-                {
-                    Console.WriteLine("Correct! " + q.Explanation);
-                    score++;
-                }
-                else
-                {
-                    Console.WriteLine("Incorrect. " + q.Explanation);
-                }
-            }
-
-            //Output final score and log the activity.
-            Console.WriteLine($"Quiz completed. Score: {score}/{Questions.Count}");
-            ActivityLogger.Add($"Quiz completed. Score: {score}/{Questions.Count}");
-        }
     }
 
 //--------------------------------------------------------------------------------
@@ -218,11 +184,11 @@ namespace CyberChatbotGUI.Logic
                 }
             };
 
-            foreach (var pair in responses)
+            foreach (var p in responses)
             {
-                if (pair.Key.Any(k => input.Contains(k)))
+                if (p.Key.Any(k => input.Contains(k)))
                 {
-                    return pair.Value[new Random().Next(pair.Value.Length)];
+                    return p.Value[new Random().Next(p.Value.Length)];
                 }
             }
 

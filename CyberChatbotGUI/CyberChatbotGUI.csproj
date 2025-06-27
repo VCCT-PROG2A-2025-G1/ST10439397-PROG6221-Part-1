@@ -109,11 +109,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Chatbot_Shared\Chatbot_Shared.csproj">
-      <Project>{82b4e024-0626-4eaa-aada-649427a27dde}</Project>
-      <Name>Chatbot_Shared</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
